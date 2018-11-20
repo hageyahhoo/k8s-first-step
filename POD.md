@@ -8,11 +8,13 @@
 
 
 ## Investigate Pods
-|`kubectl get (pod|pods)`                          |List all status of Pods.|
-|`kubectl get (pod|pods) <pod-name>`               |List the status of the specified Pod.|
-|`kubectl get (pod|pods) <pod-name> -o wide`       |List the status of the specified Pod including IP address and node name.|
-|`kubectl get (pod|pods) <pod-name> -o (yaml|json)`|List the status of the specified Pod with yaml or json.|
-|`kubectl describe (pod|pods) <pod-name>`          |Show details of the specified Pod.|
+|Command                                                 |Description                                                             |
+| ------------------------------------------------------ | ---------------------------------------------------------------------- |
+|`kubectl get (pod OR pods)`                             |List all status of Pods.                                                |
+|`kubectl get (pod OR pods) <pod-name>`                  |List the status of the specified Pod.                                   |
+|`kubectl get (pod OR pods) <pod-name> -o wide`          |List the status of the specified Pod including IP address and node name.|
+|`kubectl get (pod OR pods) <pod-name> -o (yaml OR json)`|List the status of the specified Pod with yaml or json.                 |
+|`kubectl describe (pod OR pods) <pod-name>`             |Show details of the specified Pod.                                      |
 
 
 ## Update Pods
