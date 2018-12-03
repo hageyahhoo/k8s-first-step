@@ -1,19 +1,10 @@
+The objective of this repository is **to study basics and building blocks of [Kubernetes](https://kubernetes.io/)**.
 
-# About "nginx" Docker image
-https://hub.docker.com/_/nginx/
 
-## How to run it on Docker
-Need to specify ports like `docker container run -d -p 81:80 --name <container_name> nginx:latest`
-- We cannot access to nginx via Web Browser without this port configuration.
-- p from:to
-- Can check `docker port <container_name>` like `80/tcp -> 0.0.0.0:81`
+# Prerequisites
+We use **`nginx` Docker image** for this study.
 
-## Commands
-- Can use
-  - cat
-  - more
-  - bash
-- Cannot use
-  - vi
-  - less
-  - ps
+
+# Related Documents
+- [nginx information](./NGINX.md)
+- [How to Use Pods](./POD.md)
