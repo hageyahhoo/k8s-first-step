@@ -33,7 +33,7 @@ https://hub.docker.com/_/nginx/
 
 # How to Run It with Docker
 1. `docker container run -d -p <from-port>:<to-port> --name <container_name> nginx:latest`
-2. Access to http://localhost:81/index.html
+2. Access to http://<host-ip>:<from-port>/index.html
 
 
 # [Tips] How to Mange nginx
