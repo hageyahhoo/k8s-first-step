@@ -35,10 +35,10 @@ Run `kubectl delete (po OR pod OR pods) <pod-name>`
 We can NOT expose services only with Pod. We need to use `Service` and `Deployment`.
 
 ## How to Configure
-- Configure the type of Service as `LoadBalancer`
-- Create `Service` and `Deployment`
-- Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`
-- Specify `http://<EXTERNAL-IP>:<port>`
+1. Configure the type of Service as `LoadBalancer`
+2. Create `Service` and `Deployment`
+3. Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`
+4. Specify `http://<EXTERNAL-IP>:<port>`
 
 ## Links
 https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
