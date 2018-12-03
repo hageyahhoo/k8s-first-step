@@ -9,4 +9,4 @@ spec:
   - name: web-server
     image: nginx:latest
     ports:
-    - containerPort: 81
+    - containerPort: 80
