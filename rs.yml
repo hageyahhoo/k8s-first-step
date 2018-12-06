@@ -1,19 +1,19 @@
 apiVersion: apps/v1beta2
 kind: ReplicaSet
 metadata:
-  name: web-service
+  name: web-server
 spec:
   replicas: 5
   selector:
     matchLabels:
-      run: web-service
+      run: web-server
   template:
     metadata:
       labels:
-        run: web-service
+        run: web-server
     spec:
       containers:
-      - name: web-service
+      - name: web-server
         image: nginx:latest
         ports:
         - containerPort: 443
