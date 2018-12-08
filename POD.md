@@ -51,7 +51,7 @@ https://kubernetes.io/docs/concepts/services-networking/connect-applications-ser
 1. Change the image and labels of Pods.
 2. Apply Pods' manifest file.
 3. Change labels of Service.
-4. Apply Service' manifest file.
+4. Apply Service's manifest file.
 
 ## 2) Rolling update with `Deployment`
 **TODO**
