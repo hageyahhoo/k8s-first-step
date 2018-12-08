@@ -7,14 +7,19 @@ spec:
   selector:
     matchLabels:
       run: web-server
+#      version: latest
+      version: "1.14"
   template:
     metadata:
       labels:
         run: web-server
+#        version: latest
+        version: "1.14"
     spec:
       containers:
       - name: web-server
         image: nginx:latest
+#        image: nginx:1.14
         ports:
         - containerPort: 443
         - containerPort: 80

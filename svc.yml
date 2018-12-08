@@ -16,4 +16,5 @@ spec:
     name: https
   selector:
     run: web-server
-
+    version: latest
+#    version: "1.14"

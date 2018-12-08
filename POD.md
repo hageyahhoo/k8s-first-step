@@ -19,26 +19,39 @@
 2. Run `kubectl apply -f <manifest file>`.
 
 ## Login to Pods
-Run `kubectl exec <pod-name> <commands> (--container <container-name>)`
+Run `kubectl exec <pod-name> <commands> (--container <container-name>)`.
 e.g.)
 - kubectl exec <pod-name> ps aux
 - kubectl exec -it <pod-name> sh
 
 ## Stop Pods
-Run `kubectl delete (po OR pod OR pods) <pod-name>`
+Run `kubectl delete (po OR pod OR pods) <pod-name>`.
 
 ## TODO
 `kubectl logs <pod-name>`
 
 
 # 2. How to Expose Pods
-We can NOT expose services only with Pod. We need to use `Service` and `Deployment`.
+We can NOT expose services only with Pod. We need to use `Service`.
 
 ## How to Configure
-1. Configure the type of Service as `LoadBalancer`
-2. Create `Service` and `Deployment`
-3. Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`
-4. Specify `http://<EXTERNAL-IP>:<port>`
+1. Create `Service`
+  - Configure the type of Service as `LoadBalancer`.
+  - We cannot use `ClusterIP` or `NodePort` for it.
+3. Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`.
+4. Specify `http://<EXTERNAL-IP>:<port>`.
 
 ## Links
 https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
+
+
+# 3. How to Update Pods
+
+## 1) Change Pods and labels
+1. Change the image and labels of Pods.
+2. Apply Pods' manifest file.
+3. Change labels of Service.
+4. Apply Service' manifest file.
+
+## 2) Rolling update with `Deployment`
+**TODO**
