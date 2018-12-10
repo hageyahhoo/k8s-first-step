@@ -3,10 +3,16 @@ kind: Deployment
 metadata:
   name: web-server
 spec:
+  replicas: 5
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
   selector:
     matchLabels:
       run: web-server
-  replicas: 1
   template:
     metadata:
       labels:
@@ -15,6 +21,7 @@ spec:
       containers:
       - name: web-server
         image: nginx:latest
+#        image: nginx:1.14
         ports:
         - containerPort: 443
         - containerPort: 80

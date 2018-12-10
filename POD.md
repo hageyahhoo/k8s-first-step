@@ -54,4 +54,9 @@ https://kubernetes.io/docs/concepts/services-networking/connect-applications-ser
 4. Apply Service' manifest file.
 
 ## 2) Rolling update with `Deployment`
+1. Change Pods' information.
+2. Run `kubectl apply -f <manifest-file-for-deployment>`
+3. Run `kubectl rollout status deploy <deployment-name>` to check the status of rolling update.
+
+## 3) Rollback with `Deployment`
 **TODO**
