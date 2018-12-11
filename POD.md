@@ -47,7 +47,7 @@ https://kubernetes.io/docs/concepts/services-networking/connect-applications-ser
 
 # 3. How to Update Pods
 
-## 1) Change Pods and labels
+## 1) Change Pods and labels : Blue-Green Deployment OR Canary Release
 1. Change the image and labels of Pods.
 2. Apply Pods' manifest file.
 3. Change labels of Service.
