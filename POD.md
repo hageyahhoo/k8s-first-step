@@ -53,10 +53,13 @@ https://kubernetes.io/docs/concepts/services-networking/connect-applications-ser
 3. Change labels of Service.
 4. Apply Service's manifest file.
 
-## 2) Rolling update with `Deployment`
+## 2) Rolling update and rollback with `Deployment`
 1. Change Pods' information.
-2. Run `kubectl apply -f <manifest-file-for-deployment>`
-3. Run `kubectl rollout status deploy <deployment-name>` to check the status of rolling update.
-
-## 3) Rollback with `Deployment`
-**TODO**
+2. Rolling update
+  1. Run `kubectl apply -f <manifest-file-for-deployment> --record`.
+    - This command can record revision numbers (=history) of changing Deployment. We can use them for rollback.
+  2. Run `kubectl rollout status (deploy OR deployment) <deployment-name>` to check the status of rolling update.
+3. Rollback
+  1. Run `kubectl rollout history (deploy OR deployment) <deployment-name>` to get revision numbers.
+  2. Run `kubectl rollout undo (deploy OR deployment) <deployment-name> --to-revision=<revision-number>`.
+  3. Run `kubectl rollout status (deploy OR deployment) <deployment-name>` to check the status of rollback.
