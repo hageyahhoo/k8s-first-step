@@ -7,4 +7,4 @@ We use **`nginx` Docker image** for this study.
 
 # Related Documents
 - [nginx information](./NGINX.md)
-- [How to Use Pods](./POD.md)
+- [How to Use Resources](./RESOURCES.md)
