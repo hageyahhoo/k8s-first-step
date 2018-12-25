@@ -5,7 +5,8 @@ metadata:
   labels:
     run: web-server
 spec:
-  type: LoadBalancer
+#  type: LoadBalancer
+  type: NodePort
   ports:
   - port: 8080
     targetPort: 80

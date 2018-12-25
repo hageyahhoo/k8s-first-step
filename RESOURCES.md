@@ -47,10 +47,11 @@ Link) https://medium.com/@lizrice/accessing-an-application-on-kubernetes-in-dock
 
 ## 2) Use `Service` Resource
 1. Create `Service`.
-  - Configure the type of Service as `LoadBalancer`.
-  - We cannot use `ClusterIP` or `NodePort` for it.
+  - Configure the type of Service as `NodePort` or `LoadBalancer`.
+  - We cannot use `ClusterIP` for exposing Pods. It's just for internal-cluster.
 2. Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`.
 3. Specify `http://<EXTERNAL-IP>:<port>`.
+  - e.g.) http://localhost:8080
 
 Link) https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
 
