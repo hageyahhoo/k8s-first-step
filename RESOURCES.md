@@ -32,17 +32,27 @@ Run `kubectl delete (po OR pod OR pods) <pod-name>`.
 
 
 # 2. How to Expose Pods
-We can NOT expose services only with Pod. We need to use `Service`.
+We can NOT expose services only with Pod. We need additional configuration or resource.
 
-## How to Configure
-1. Create `Service`
+## 1) Use `kubectl port-forward`
+1. Create Pods.
+2. Run `kubectl port-forward <pod-name> <from-port>:<to-port>`
+  ```
+  e.g.)
+  $ kubectl port-forward web-service 8080:80
+  > Forwarding from 127.0.0.1:8080 -> 80
+  -> Can access to "web-service" Pod with http://localhost:8080
+  ```
+Link) https://medium.com/@lizrice/accessing-an-application-on-kubernetes-in-docker-1054d46b64b1
+
+## 2) Use `Service` Resource
+1. Create `Service`.
   - Configure the type of Service as `LoadBalancer`.
   - We cannot use `ClusterIP` or `NodePort` for it.
-3. Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`.
-4. Specify `http://<EXTERNAL-IP>:<port>`.
+2. Run `kubectl get svc <service-name>` to check `EXTERNAL-IP`.
+3. Specify `http://<EXTERNAL-IP>:<port>`.
 
-## Links
-https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
+Link) https://kubernetes.io/docs/concepts/services-networking/connect-applications-service/
 
 
 # 3. How to Update Pods
