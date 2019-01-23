@@ -8,3 +8,4 @@ We use **`nginx` Docker image** for this study.
 # Related Documents
 - [nginx information](./NGINX.md)
 - [How to Use Resources](./RESOURCES.md)
+- [How to Use RESTful APIs](./RESTFUL_APIS.md)
