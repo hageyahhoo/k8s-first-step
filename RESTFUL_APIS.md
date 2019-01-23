@@ -5,7 +5,7 @@
 # [kubectl proxy](https://kubernetes.io/docs/tasks/administer-cluster/access-cluster-api/#using-kubectl-proxy)
 Run `kubectl` in Proxy Mode
 1. Run `kubectl proxy --port=<port> &`
-2. Run `curl https://localhost:<port>/api` or access to **https://localhost:<port>/** via browser.
+2. Run `curl https://localhost:<port>/api` or access to **http://localhost:XXXX/** via browser.
 
 
 # v=8 : View API Calls by kubectl
