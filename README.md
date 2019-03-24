@@ -9,3 +9,4 @@ We use **`nginx` Docker image** for this study.
 - [nginx information](./NGINX.md)
 - [How to Use Resources](./RESOURCES.md)
 - [How to Use RESTful APIs](./RESTFUL_APIS.md)
+- [Service Mesh](./SERVICE_MESH.md)
