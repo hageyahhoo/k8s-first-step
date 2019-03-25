@@ -11,7 +11,8 @@
 
 
 ## Links
+- [Istio](https://istio.io/)
+- [What Is a Service Mesh?](https://www.nginx.com/blog/what-is-a-service-mesh/)
 - [Instructions](https://istio.io/docs/setup/kubernetes/install/helm/)
-- [Istio 1.1.0](https://github.com/istio/istio/releases/)
 - https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop6.md
 - https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop8.md
