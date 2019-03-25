@@ -16,3 +16,18 @@
 - [Instructions](https://istio.io/docs/setup/kubernetes/install/helm/)
 - https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop6.md
 - https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop8.md
+
+
+
+# TODO
+- Envoy Proxy
+  - kubectl apply --record -f <(istioctl kube-inject -f ./xxx.yml)
+  - istioctl kube-inject -f xxx
+- [Traffic Management](https://istio.io/docs/concepts/traffic-management/)
+  - Health Check
+  - Routing
+    - Round Robin
+  - Timeout
+- [Security](https://istio.io/docs/concepts/security/)
+- [Control and Observe](https://istio.io/docs/concepts/policies-and-telemetry/)
+  - Transparency
