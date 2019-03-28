@@ -31,3 +31,4 @@
 - [Security](https://istio.io/docs/concepts/security/)
 - [Control and Observe](https://istio.io/docs/concepts/policies-and-telemetry/)
   - Transparency
+- [Smart Endpoints and Dump Pipes](https://www.martinfowler.com/microservices/)
