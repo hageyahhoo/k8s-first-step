@@ -1,7 +1,45 @@
 **Utilize Service Mesh with Istio**
 
+[Istio](https://istio.io/) is an Open Source implementation of [Service Mesh](https://www.nginx.com/blog/what-is-a-service-mesh/), the configurable and low latency infrastructure layer. It behaves like DI in Java development.
 
-# How to Install Grafana
+
+
+# Setup
+
+## 1. [Play with Kubernetes](https://labs.play-with-k8s.com/)
+
+### 1.1. Master Node
+1. Press "ADD NEW INSTANCE"
+2. Run `kubeadm init --apiserver-advertise-address $(hostname -i)`
+3. Run `kubectl apply -n kube-system -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 |tr -d '\n')"`
+
+### 1.2. Slave Node
+1. Press "ADD NEW INSTANCE"
+2. Run `kubeadm join`
+
+
+## 2. [Helm (Package Management system)](https://github.com/helm/helm)
+⭐️
+1. curl -L
+  - `brew install kubernetes-helm`
+2. helm init
+3. helm search
+
+
+## 3. Istio
+Link: https://istio.io/docs/setup/kubernetes/install/helm/
+1. kubectl create namespace istio-system
+2. cd $ISTIO_HOME
+3. helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+4. kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
+5. helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
+⭐️
+6. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.1 sh -` on Master Node.
+7. Run `export PATH=$PATH:/root/istio-1.1.1/bin`
+8. Run `istioctl`
+
+
+## 4. Grafana (Optional)
 1. Run `helm install stable/grafana --name grafana --namespace default` and memorize the name of `v1/Secret`.
 2. Run `kubectl get secret grafana --namespace default -o yaml` to onfirm the secret for Grafana.
 3. Decode password by running `echo "xxx" | base64 --decode`
@@ -11,11 +49,9 @@
 
 
 ## Links
-- [Istio](https://istio.io/)
-- [What Is a Service Mesh?](https://www.nginx.com/blog/what-is-a-service-mesh/)
-- [Instructions](https://istio.io/docs/setup/kubernetes/install/helm/)
 - https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop6.md
 - https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop8.md
+- [How to Monitor k8s](https://qiita.com/FY0323/items/72616d6e280ec7f2fdaf)
 
 
 
