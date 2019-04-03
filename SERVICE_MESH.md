@@ -19,26 +19,24 @@
 
 
 ## 2. [Helm (Package Management system)](https://github.com/helm/helm)
-1. Run `curl https://kubernetes-helm.storage.googleapis.com/helm-v2.13.1-linux-amd64.tar.gz -o helm-v2.13.1-linux-amd64.tar.gz`
-2. Run `tar xvf helm-v2.13.1-linux-amd64.tar.gz`
-3. Run `export PATH=$PATH:/root/linux-amd64`
+1. curl https://kubernetes-helm.storage.googleapis.com/helm-v2.13.1-linux-amd64.tar.gz -o helm-v2.13.1-linux-amd64.tar.gz
+2. tar xvf helm-v2.13.1-linux-amd64.tar.gz
+3. export PATH=$PATH:/root/linux-amd64
+4. helm
 4. helm init
 5. helm search
 
 Link: https://github.com/docker/compose-on-kubernetes/issues/35
 
 
-## 3. Istio
-Link: https://istio.io/docs/setup/kubernetes/install/helm/
-1. kubectl create namespace istio-system
-2. cd $ISTIO_HOME
-3. helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
-4. kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l
-5. helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
-⭐️
-6. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.1 sh -` on Master Node.
-7. Run `export PATH=$PATH:/root/istio-1.1.1/bin`
-8. Run `istioctl`
+## 3. [Istio](https://istio.io/docs/setup/kubernetes/install/helm/)
+1. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.1 sh -` on Master Node.
+2. export PATH=$PATH:/root/istio-1.1.1/bin
+3. istioctl
+4. kubectl create namespace istio-system
+5. cd $ISTIO_HOME
+6. helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+7. helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
 
 
 ## 4. Grafana (Optional)
@@ -51,8 +49,7 @@ Link: https://istio.io/docs/setup/kubernetes/install/helm/
 
 
 ## Links
-- https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop6.md
-- https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop8.md
+- [Service Mesh by Terada-san](https://github.com/yoshioterada/k8s-Azure-Container-Service-AKS--on-Azure/blob/master/Kubernetes-Workshop6.md)
 - [How to Monitor k8s](https://qiita.com/FY0323/items/72616d6e280ec7f2fdaf)
 
 
