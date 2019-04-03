@@ -1,6 +1,6 @@
-**Utilize Service Mesh with Istio**
+# Utilize Service Mesh with Istio!
 
-[Istio](https://istio.io/) is an Open Source implementation of [Service Mesh](https://www.nginx.com/blog/what-is-a-service-mesh/), the configurable and low latency infrastructure layer. It behaves like DI in Java development.
+[Istio](https://istio.io/) is an Open Source implementation of [Service Mesh](https://www.nginx.com/blog/what-is-a-service-mesh/), a configurable and low latency infrastructure layer. It behaves like DI/CDI in Java development.
 
 
 
@@ -19,11 +19,13 @@
 
 
 ## 2. [Helm (Package Management system)](https://github.com/helm/helm)
-⭐️
-1. curl -L
-  - `brew install kubernetes-helm`
-2. helm init
-3. helm search
+1. Run `curl https://kubernetes-helm.storage.googleapis.com/helm-v2.13.1-linux-amd64.tar.gz -o helm-v2.13.1-linux-amd64.tar.gz`
+2. Run `tar xvf helm-v2.13.1-linux-amd64.tar.gz`
+3. Run `export PATH=$PATH:/root/linux-amd64`
+4. helm init
+5. helm search
+
+Link: https://github.com/docker/compose-on-kubernetes/issues/35
 
 
 ## 3. Istio
