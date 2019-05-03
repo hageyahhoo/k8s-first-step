@@ -1,5 +1,4 @@
 # Utilize Service Mesh with Istio!
-
 [Istio](https://istio.io/) is an Open Source implementation of [Service Mesh](https://www.nginx.com/blog/what-is-a-service-mesh/), a configurable and low latency infrastructure layer. It behaves like DI/CDI in Java development.
 
 
@@ -30,13 +29,18 @@ Link: https://github.com/docker/compose-on-kubernetes/issues/35
 
 
 ## 3. [Istio](https://istio.io/docs/setup/kubernetes/install/helm/)
-1. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.1 sh -` on Master Node.
-2. export PATH=$PATH:/root/istio-1.1.1/bin
+1. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.4 sh -` on Master Node.
+2. export PATH=$PATH:/root/istio-1.1.4/bin
 3. istioctl
 4. kubectl create namespace istio-system
 5. cd $ISTIO_HOME
 6. helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
 7. helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
+8. kubectl get svc -n istio-system
+9. kubectl get po -n istio-system
+10. helm repo add istio.io https://storage.googleapis.com/istio-release/releases/1.1.4/charts/
+11. for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
+12. kubectl get crd
 
 
 ## 4. Grafana (Optional)
@@ -54,7 +58,50 @@ Link: https://github.com/docker/compose-on-kubernetes/issues/35
 
 
 
-# TODO
+# Tasks (TODO)
+
+## 0. Set up [Base Application](https://istio.io/docs/examples/bookinfo/)
+1. cd $ISTIO_HOME
+2. kubectl label namespace default istio-injection=enabled
+3. kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+4. kubectl get svc
+5. kubectl get po
+  -> No resources found.
+6. @@@@@
+7. kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+
+
+## 1. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
+
+
+## 2. [Sidecar](https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/)
+- Automatic Sidecar Injection
+  kubectl api-versions | grep admissionregistration
+  -> admissionregistration.k8s.io/v1beta1
+
+
+## 3. [Circuit Breaker](https://istio.io/docs/tasks/traffic-management/circuit-breaking/)
+kubectl apply -f - <<EOF
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: httpbin
+spec:
+  host: httpbin
+  trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 1
+      http:
+        http1MaxPendingRequests: 1
+        maxRequestsPerConnection: 1
+    outlierDetection:
+      consecutiveErrors: 1
+      interval: 1s
+      baseEjectionTime: 3m
+      maxEjectionPercent: 100
+EOF
+
 - Envoy Proxy
   - kubectl apply --record -f <(istioctl kube-inject -f ./xxx.yml)
   - istioctl kube-inject -f xxx
