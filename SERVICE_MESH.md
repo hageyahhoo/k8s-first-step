@@ -59,7 +59,6 @@ Link: https://github.com/docker/compose-on-kubernetes/issues/35
 
 
 # Tasks
-
 ## 1. [Sidecar Injection](https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/)
 - It requires `istio` and `istio-sidecar-injector` ConfigMaps in `istio-system` namespace.
 - We use `$ISTIO_HOME/samples/sleep/sleep.yaml` for explanation.
@@ -86,13 +85,31 @@ Use `istioctl kube-inject` command to inject sidecar.
   $ kubectl apply -f sleep-injected.yaml
   $ kubectl get pods -l app=sleep
   ```
-
+⭐️ sleep-injected.yamlを、この方法で作成済
+  ⭐️　実際にapplyすると、Podだけ生成できない
+  ```bash
+  $ kubectl get deploy
+  NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+  sleep   0/1     0            0           4m12s
+  ```
 
 ### 1.2. Automatic Sidecar Injection
-TODO
+⭐️ TODO
 Use `Istio sidecar injector`.
 kubectl api-versions | grep admissionregistration
 -> admissionregistration.k8s.io/v1beta1
+
+Check [Admission Controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
+- MutatingAdmissionWebhook
+- ValidatingAdmissionWebhook
+
+$ kubectl label namespace default istio-injection=enabled
+$ kubectl get ns -L istio-injection
+NAME              STATUS   AGE     ISTIO-INJECTION
+default           Active   9m8s    enabled
+kube-node-lease   Active   9m11s
+kube-public       Active   9m11s
+kube-system       Active   9m11s
 
 
 
