@@ -38,6 +38,10 @@ Link: https://github.com/docker/compose-on-kubernetes/issues/35
 7. helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
 8. kubectl get svc -n istio-system
 9. kubectl get po -n istio-system
+  - ⭐️ Istio関連のPodが生成できない
+    https://qiita.com/megaman-go-go/items/3b709e90aa133d199459
+    helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set security.enabled=true | kubectl apply -f -
+
 10. helm repo add istio.io https://storage.googleapis.com/istio-release/releases/1.1.4/charts/
 11. for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done
 12. kubectl get crd
@@ -87,11 +91,14 @@ Use `istioctl kube-inject` command to inject sidecar.
   ```
 ⭐️ sleep-injected.yamlを、この方法で作成済
   ⭐️　実際にapplyすると、Podだけ生成できない
+  - ⭐️ istio関連のresourcesが全て消失 -> 作り直し & sleep-injected.yamlが古くなってしまっているため、生成できていない
   ```bash
   $ kubectl get deploy
   NAME    READY   UP-TO-DATE   AVAILABLE   AGE
   sleep   0/1     0            0           4m12s
   ```
+
+
 
 ### 1.2. Automatic Sidecar Injection
 ⭐️ TODO
