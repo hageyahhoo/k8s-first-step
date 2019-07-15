@@ -29,16 +29,18 @@ Link: https://github.com/docker/compose-on-kubernetes/issues/35
 
 
 ## 2. [Istio](https://istio.io/docs/setup/kubernetes/install/helm/)
-1. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.4 sh -` on Master Node.
-2. export PATH=$PATH:/root/istio-1.1.4/bin
-3. istioctl
-4. kubectl create namespace istio-system
-5. cd $ISTIO_HOME
-6. helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
+1. [Download Istio](https://istio.io/docs/setup/kubernetes/install/kubernetes/)
+    1. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.2.2 sh -` on Master Node.
+      - `istio-1.2.2` directory (**=$ISTIO_HOME**) wiil be created.
+    2. Run `export PATH=$PATH:$ISTIO_HOME/bin`
+    3. Run `istioctl verify-install`
+2. ️️️️⭐️ Run `kubectl create namespace istio-system`
+3. cd $ISTIO_HOME
+4. helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -
 7. helm template install/kubernetes/helm/istio --name istio --namespace istio-system | kubectl apply -f -
 8. kubectl get svc -n istio-system
 9. kubectl get po -n istio-system
-  - ⭐️ Istio関連のPodが生成できない
+  - ⭐️ Istio関連のPodが生成できない（Docker for Mac）
     https://qiita.com/megaman-go-go/items/3b709e90aa133d199459
     helm template install/kubernetes/helm/istio --name istio --namespace istio-system --set security.enabled=true | kubectl apply -f -
 
@@ -84,7 +86,7 @@ Use `istioctl kube-inject` command to inject sidecar.
   $ istioctl kube-inject \
       --injectConfigFile inject-config.yaml \
       --meshConfigFile mesh-config.yaml \
-      --filename samples/sleep/sleep.yaml \
+      --filename sleep.yaml \
       --output sleep-injected.yaml
   $ kubectl apply -f sleep-injected.yaml
   $ kubectl get pods -l app=sleep
@@ -98,7 +100,12 @@ Use `istioctl kube-inject` command to inject sidecar.
   sleep   0/1     0            0           4m12s
   ```
 
-
+  Play with k8sでの出力
+  ```bash
+  [node1 sleep]$ kubectl get pods -l app=sleep
+  NAME                     READY   STATUS    RESTARTS   AGE
+  sleep-57d87fc557-pnj8n   0/2     Pending   0          21s
+  ```
 
 ### 1.2. Automatic Sidecar Injection
 ⭐️ TODO
@@ -188,3 +195,31 @@ EOF
 - [Control and Observe](https://istio.io/docs/concepts/policies-and-telemetry/)
   - Transparency
 - [Smart Endpoints and Dump Pipes](https://www.martinfowler.com/microservices/)
+
+
+
+# Links
+- [Istio wiki](https://github.com/istio/istio/wiki)
+  - This wiki includes a lot of techniques and approaches we can refer.
+
+
+
+# Sandbox
+## 2. ⭐️ [Istio](https://istio.io/docs/setup/kubernetes/install/kubernetes/)
+1. [Download Istio](https://istio.io/docs/setup/kubernetes/install/kubernetes/)
+    1. Run `curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.2.2 sh -` on Master Node.
+      - `istio-1.2.2` directory (**=$ISTIO_HOME**) wiil be created.
+    2. Run `export PATH=$PATH:$ISTIO_HOME/bin`
+    3. Run `istioctl verify-install`
+2. Install all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions).
+    1. cd $ISTIO_HOME
+    2. Run `for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done`
+3. Install **demo** profile
+    1. cd $ISTIO_HOME
+    2. Run the following command:
+        - Permissive mTLS: `kubectl apply -f install/kubernetes/istio-demo.yaml`
+        - Strict mTLS: `kubectl apply -f install/kubernetes/istio-demo-auth.yaml`
+    3. Run `kubectl get svc -n istio-system`
+    4. Run `kubectl get po -n istio-system`
+      - ⭐️ StatusがPendingのまま（PwK）
+      - ⭐️ Podが生成されない（Docker for Mac）
