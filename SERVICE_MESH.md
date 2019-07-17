@@ -9,28 +9,6 @@
 
 # Setup
 
-## 1. Cluster/Environment
-
-### 1.1. [Play with Kubernetes](https://labs.play-with-k8s.com/)
-
-#### 1.1.1. Master Node
-1. Press "ADD NEW INSTANCE"
-2. Run `kubeadm init --apiserver-advertise-address $(hostname -i)`
-3. Run `kubectl apply -n kube-system -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 |tr -d '\n')"`
-
-#### 1.1.2. Slave Node
-1. Press "ADD NEW INSTANCE"
-2. Run `kubeadm join`
-<br />
-<br />
-
-
-### 1. 2. [GKE(Google Kubernetes Engine) ](https://cloud.google.com/kubernetes-engine/)
-**Now investigating.**
-<br />
-<br />
-
-
 ## 1. [Helm](https://helm.sh/docs/using_helm/)
 [Helm](https://github.com/helm/helm) is a package management system for Kubernetes.
 <br />
@@ -80,27 +58,26 @@ In this case, we use only `helm`.
     ```
 3. cd $ISTIO_HOME
 
-4. Run `helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system --set gateways.istio-ingressgateway.type=NodePort --set security.enabled=true | kubectl apply -f -`
+4. Run `helm template install/kubernetes/helm/istio-init --name istio-init --namespace istio-system | kubectl apply -f -`
 
 5. Install all the Istio [Custom Resource Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions).
     1. Run `for i in install/kubernetes/helm/istio-init/files/crd*yaml; do kubectl apply -f $i; done`
     2. Run `kubectl get crds | grep 'istio.io\|certmanager.k8s.io' | wc -l` and check the result is **28**.
 
-6. Run `helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml --set gateways.istio-ingressgateway.type=NodePort --set security.enabled=true | kubectl apply -f -`
+6. Run `helm template install/kubernetes/helm/istio --name istio --namespace istio-system --values install/kubernetes/helm/istio/values-istio-demo.yaml | kubectl apply -f -`
     1. kubectl get svc -n istio-system
     2. kubectl get deploy -n istio-system
     3. kubectl get po -n istio-system
-        - If Pod becomes `Pending` due to `1 node(s) had taints that the pod didn't tolerate`, please try the following steps:
-            1. Run `kubectl get node` to get the node name.
-            2. Run `kubectl describe node <node-name>` and check `Taints: node-role.kubernetes.io/master:NoSchedule`.
-            3. Run `kubectl taint nodes <node-name> <value-of-tains>-`
 
-            Links:
-            - https://qiita.com/nykym/items/dcc572c21885543d94c8
-            - https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
-        - ⭐️ Istio関連のDeployment&Podが生成できない（Docker for Mac）
-            https://qiita.com/megaman-go-go/items/3b709e90aa133d199459
-            - Cannot detect `node`
+
+    If Pod becomes `Pending` due to `1 node(s) had taints that the pod didn't tolerate`, please try the following steps:
+    1. Run `kubectl get node` to get the node name.
+    2. Run `kubectl describe node <node-name>` and check `Taints: node-role.kubernetes.io/master:NoSchedule`.
+    3. Run `kubectl taint nodes <node-name> <value-of-tains>-` and check `Taints : <none>`
+
+    Links:
+    - https://qiita.com/nykym/items/dcc572c21885543d94c8
+    - https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/
 <br />
 <br />
 
@@ -127,6 +104,7 @@ In this case, we use only `helm`.
 
 
 # Tasks
+
 ## 1. [Sidecar Injection](https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/)
 - It requires `istio` and `istio-sidecar-injector` ConfigMaps in `istio-system` namespace.
 - We use `$ISTIO_HOME/samples/sleep/sleep.yaml` for explanation.
@@ -193,10 +171,6 @@ kube-system       Active   9m11s
 
 
 # TODO
-- Try `tiller` on multi-cluster environment.
-    - Try to use `GKE`.
-        https://qiita.com/oke-py/items/d35511985346ab4c37b5
-- kubectl config current-context
 
 ## 0. Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/)
 1. `cd $ISTIO_HOME`
@@ -278,3 +252,21 @@ EOF
 - [How to Monitor k8s](https://qiita.com/FY0323/items/72616d6e280ec7f2fdaf)
 - [Istio wiki](https://github.com/istio/istio/wiki)
   - This wiki includes a lot of techniques and approaches we can refer.
+
+
+
+# Misc.
+```bash
+$ kubectl config get-contexts
+CURRENT   NAME                 CLUSTER          AUTHINFO         NAMESPACE
+*         docker-desktop       docker-desktop   docker-desktop
+          docker-for-desktop   docker-desktop   docker-desktop
+```
+```bash
+$ kubectl config use-context docker-for-desktop
+Switched to context "docker-for-desktop".
+```
+```bash
+$ kubectl config current-context
+docker-for-desktop
+```
