@@ -112,7 +112,7 @@ We can add `Istio Sidecar` to the Pods/Deployments manually or automatically.
 Use `istioctl kube-inject`.
 
 ### 1.2. Automatic Sidecar Injection
-Use `Istio sidecar injector`.
+Use `Istio sidecar injector` and [MutatingWebhookConfiguration](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.10/#mutatingwebhookconfiguration-v1beta1-admissionregistration-k8s-io).
 
 1. Enable Automatic Sidecar Injection.
     ```bash
