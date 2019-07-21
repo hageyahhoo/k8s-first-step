@@ -106,108 +106,37 @@ In this case, we use only `helm`.
 # Tasks
 
 ## 1. [Sidecar Injection](https://istio.io/docs/setup/kubernetes/additional-setup/sidecar-injection/)
-- It requires `istio` and `istio-sidecar-injector` ConfigMaps in `istio-system` namespace.
-- We use `$ISTIO_HOME/samples/sleep/sleep.yaml` for explanation.
-
+We can add `Istio Sidecar` to the Pods/Deployments manually or automatically.
 
 ### 1.1. Manual Sidecar Injection
-Use `istioctl kube-inject` command to inject sidecar.
-
-#### 1) Using In-cluster Configuration
-1. Run `istioctl kube-inject -f samples/sleep/sleep.yaml | kubectl apply -f -`
-  - It creates `serviceaccount`, `service`, `deployment`, and `pods`.
-2. Run `kubectl get pods -l app=sleep`
-
-#### 2) Using Local Copies of the Configuration
-  ```bash
-  $ cd $ISTIO_HOME/samples/sleep
-  $ kubectl get configmap istio-sidecar-injector -n istio-system -o=jsonpath='{.data.config}' > inject-config.yaml
-  $ kubectl get configmap istio -n istio-system -o=jsonpath='{.data.mesh}' > mesh-config.yaml
-  $ istioctl kube-inject \
-      --injectConfigFile inject-config.yaml \
-      --meshConfigFile mesh-config.yaml \
-      --filename sleep.yaml \
-      --output sleep-injected.yaml
-  $ kubectl apply -f sleep-injected.yaml
-  $ kubectl get pods -l app=sleep
-  ```
-⭐️ sleep-injected.yamlを、この方法で作成済
-  ⭐️　実際にapplyすると、Podだけ生成できない
-  - ⭐️ istio関連のresourcesが全て消失 -> 作り直し & sleep-injected.yamlが古くなってしまっているため、生成できていない
-  ```bash
-  $ kubectl get deploy
-  NAME    READY   UP-TO-DATE   AVAILABLE   AGE
-  sleep   0/1     0            0           4m12s
-  ```
-
-  Play with k8sでの出力
-  ```bash
-  [node1 sleep]$ kubectl get pods -l app=sleep
-  NAME                     READY   STATUS    RESTARTS   AGE
-  sleep-57d87fc557-pnj8n   0/2     Pending   0          21s
-  ```
+Use `istioctl kube-inject`.
 
 ### 1.2. Automatic Sidecar Injection
-⭐️ TODO
 Use `Istio sidecar injector`.
-kubectl api-versions | grep admissionregistration
--> admissionregistration.k8s.io/v1beta1
 
-Check [Admission Controller](https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/)
-- MutatingAdmissionWebhook
-- ValidatingAdmissionWebhook
+1. Enable Automatic Sidecar Injection.
+    ```bash
+    $ kubectl label namespace default istio-injection=enabled
+    $ kubectl get ns -L istio-injection
+    NAME              STATUS   AGE     ISTIO-INJECTION
+    default           Active   4d      enabled
+    docker            Active   4d
+    istio-system      Active   3d12h
+    kube-node-lease   Active   4d
+    kube-public       Active   4d
+    kube-system       Active   4d
+    ```
 
-$ kubectl label namespace default istio-injection=enabled
-$ kubectl get ns -L istio-injection
-NAME              STATUS   AGE     ISTIO-INJECTION
-default           Active   9m8s    enabled
-kube-node-lease   Active   9m11s
-kube-public       Active   9m11s
-kube-system       Active   9m11s
-<br />
-<br />
-<br />
-
-
-
-# TODO
-
-## 0. Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/)
-1. `cd $ISTIO_HOME`
-2. `kubectl label namespace default istio-injection=enabled`
-3. `kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml`
-  - `kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)`
-4. `kubectl get svc`
-5. `kubectl get po`
-  - (i) `Play with Kubernetes` cannot create pods...
-  - (i) Some pods aren't running
-6. `kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"`
-  - curl: (7) Failed to connect to productpage port 9080: Connection refused
-7. `kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml`
-8. `kubectl get gateway`
-9. `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`
-  INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-  export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-  export GATEWAY_URL=localhost:31380
-
-
-`curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"`
-
-Cleanup
-`samples/bookinfo/platform/kube/cleanup.sh`
-<br />
+2. We use `$ISTIO_HOME/samples/sleep/sleep.yaml` for explanation.
+    1. Run `kubectl apply -f $ISTIO_HOME/samples/sleep/sleep.yaml`
+    2. Run `kubectl describe pod <pod-name>` and check `istio-proxy` exists.
 <br />
 <br />
 
 
+## 2. [Circuit Breaker](https://istio.io/docs/tasks/traffic-management/circuit-breaking/)
+⭐️ TODO
 
-## ?. [Control Ingress Traffic](https://istio.io/docs/tasks/traffic-management/ingress/)
-
-
-## ?. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
-
-
-## 3. [Circuit Breaker](https://istio.io/docs/tasks/traffic-management/circuit-breaking/)
 kubectl apply -f - <<EOF
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
@@ -243,6 +172,44 @@ EOF
 - [Smart Endpoints and Dump Pipes](https://www.martinfowler.com/microservices/)
 <br />
 <br />
+
+
+## 3. Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/)
+1. `cd $ISTIO_HOME`
+2. `kubectl label namespace default istio-injection=enabled`
+3. `kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml`
+  - `kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)`
+4. `kubectl get svc`
+5. `kubectl get po`
+  - (i) `Play with Kubernetes` cannot create pods...
+  - (i) Some pods aren't running
+6. `kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"`
+  - curl: (7) Failed to connect to productpage port 9080: Connection refused
+7. `kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml`
+8. `kubectl get gateway`
+9. `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`
+  INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
+  export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
+  export GATEWAY_URL=localhost:31380
+
+
+`curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"`
+
+Cleanup
+`samples/bookinfo/platform/kube/cleanup.sh`
+<br />
+<br />
+<br />
+
+
+
+# TODO
+
+## 1. [Control Ingress Traffic](https://istio.io/docs/tasks/traffic-management/ingress/)
+
+## 2. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
+<br />
+<br />
 <br />
 
 
@@ -252,6 +219,9 @@ EOF
 - [How to Monitor k8s](https://qiita.com/FY0323/items/72616d6e280ec7f2fdaf)
 - [Istio wiki](https://github.com/istio/istio/wiki)
   - This wiki includes a lot of techniques and approaches we can refer.
+<br />
+<br />
+<br />
 
 
 
