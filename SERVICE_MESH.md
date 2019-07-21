@@ -135,46 +135,16 @@ Use `Istio sidecar injector` and [MutatingWebhookConfiguration](https://kubernet
 
 
 ## 2. [Circuit Breaker](https://istio.io/docs/tasks/traffic-management/circuit-breaking/)
-⭐️ TODO
+We can utilize `Circuit Breaker` by using `Sidecar Injection` and [Destination Rule](https://istio.io/docs/reference/config/networking/v1alpha3/destination-rule/).
 
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: DestinationRule
-metadata:
-  name: httpbin
-spec:
-  host: httpbin
-  trafficPolicy:
-    connectionPool:
-      tcp:
-        maxConnections: 1
-      http:
-        http1MaxPendingRequests: 1
-        maxRequestsPerConnection: 1
-    outlierDetection:
-      consecutiveErrors: 1
-      interval: 1s
-      baseEjectionTime: 3m
-      maxEjectionPercent: 100
-EOF
-
-- Envoy Proxy
-  - kubectl apply --record -f <(istioctl kube-inject -f ./xxx.yml)
-  - istioctl kube-inject -f xxx
-- [Traffic Management](https://istio.io/docs/concepts/traffic-management/)
-  - Health Check
-  - Routing
-    - Round Robin
-  - Timeout
-- [Security](https://istio.io/docs/concepts/security/)
-- [Control and Observe](https://istio.io/docs/concepts/policies-and-telemetry/)
-  - Transparency
-- [Smart Endpoints and Dump Pipes](https://www.martinfowler.com/microservices/)
+* `istioctl` doesn't work properly! (2019/07/21)
+https://github.com/istio/istio.io/issues/4363
 <br />
 <br />
 
 
 ## 3. Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/)
+⭐️ TODO
 1. `cd $ISTIO_HOME`
 2. `kubectl label namespace default istio-injection=enabled`
 3. `kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml`
@@ -240,3 +210,16 @@ Switched to context "docker-for-desktop".
 $ kubectl config current-context
 docker-for-desktop
 ```
+
+- Envoy Proxy
+  - kubectl apply --record -f <(istioctl kube-inject -f ./xxx.yml)
+  - istioctl kube-inject -f xxx
+- [Traffic Management](https://istio.io/docs/concepts/traffic-management/)
+  - Health Check
+  - Routing
+    - Round Robin
+  - Timeout
+- [Security](https://istio.io/docs/concepts/security/)
+- [Control and Observe](https://istio.io/docs/concepts/policies-and-telemetry/)
+  - Transparency
+- [Smart Endpoints and Dump Pipes](https://www.martinfowler.com/microservices/)
