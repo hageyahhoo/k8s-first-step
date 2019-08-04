@@ -144,41 +144,19 @@ The workflow of this example is as follows:
 <br />
 
 
-## 3. Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/)
+## 3. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
 ⭐️ TODO
-1. `cd $ISTIO_HOME`
-2. `kubectl label namespace default istio-injection=enabled`
-3. `kubectl apply -f samples/bookinfo/platform/kube/bookinfo.yaml`
-  - `kubectl apply -f <(istioctl kube-inject -f samples/bookinfo/platform/kube/bookinfo.yaml)`
-4. `kubectl get svc`
-5. `kubectl get po`
-  - (i) `Play with Kubernetes` cannot create pods...
-  - (i) Some pods aren't running
-6. `kubectl exec -it $(kubectl get pod -l app=ratings -o jsonpath='{.items[0].metadata.name}') -c ratings -- curl productpage:9080/productpage | grep -o "<title>.*</title>"`
-  - curl: (7) Failed to connect to productpage port 9080: Connection refused
-7. `kubectl apply -f samples/bookinfo/networking/bookinfo-gateway.yaml`
-8. `kubectl get gateway`
-9. `export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT`
-  INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].hostname}')
-  export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].nodePort}')
-  export GATEWAY_URL=localhost:31380
-
-
-`curl -s http://${GATEWAY_URL}/productpage | grep -o "<title>.*</title>"`
-
-Cleanup
-`samples/bookinfo/platform/kube/cleanup.sh`
-<br />
+-  Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/) at first
+    - Pod作成中に `Unable to connect to the server: EOF` エラー発生（2019/08/04）
 <br />
 <br />
 
 
-
-# TODO
-
-## 1. [Control Ingress Traffic](https://istio.io/docs/tasks/traffic-management/ingress/)
-
-## 2. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
+## Others
+- [Request Routing](https://istio.io/docs/tasks/traffic-management/request-routing/)
+- [Fault Injection](https://istio.io/docs/tasks/traffic-management/fault-injection/)
+- [Traffic Shifting](https://istio.io/docs/tasks/traffic-management/traffic-shifting/)
+- [Control Ingress Traffic](https://istio.io/docs/tasks/traffic-management/ingress/)
 <br />
 <br />
 <br />
@@ -219,7 +197,6 @@ docker-for-desktop
   - Health Check
   - Routing
     - Round Robin
-  - Timeout
 - [Security](https://istio.io/docs/concepts/security/)
 - [Control and Observe](https://istio.io/docs/concepts/policies-and-telemetry/)
   - Transparency
