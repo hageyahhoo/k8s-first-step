@@ -145,9 +145,10 @@ The workflow of this example is as follows:
 
 
 ## 3. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
-⭐️ TODO
--  Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/) at first
-    - Pod作成中に `Unable to connect to the server: EOF` エラー発生（2019/08/04）
+Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/) at first.
+
+⭐️TODO
+- `VirtualService`
 <br />
 <br />
 
