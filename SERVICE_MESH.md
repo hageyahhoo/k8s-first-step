@@ -137,8 +137,9 @@ Use `Istio sidecar injector` and [MutatingWebhookConfiguration](https://kubernet
 ## 2. [Circuit Breaker](https://istio.io/docs/tasks/traffic-management/circuit-breaking/)
 We can utilize `Circuit Breaker` by using `Sidecar Injection` and [Destination Rule](https://istio.io/docs/reference/config/networking/v1alpha3/destination-rule/).
 
-* `istioctl` doesn't work properly! (2019/07/21)
-https://github.com/istio/istio.io/issues/4363
+The workflow of this example is as follows:
+
+[fortio](https://github.com/fortio/fortio) (client) -> Circuit Breaker (Destination Rule) ->[httpbin](https://github.com/istio/istio/tree/release-1.2/samples/httpbin) (backend)
 <br />
 <br />
 
