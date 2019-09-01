@@ -145,17 +145,15 @@ The workflow of this example is as follows:
 
 
 ## 3. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
-Set up [Bookinfo Application (Sample Application)](https://istio.io/docs/examples/bookinfo/) at first.
-
-⭐️TODO
-- `VirtualService`
+- [VirtualService](https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/)
+    - [HTTP Route Rule](https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute)
+- [Fault Injection](https://istio.io/docs/tasks/traffic-management/fault-injection/)
 <br />
 <br />
 
 
 ## Others
 - [Request Routing](https://istio.io/docs/tasks/traffic-management/request-routing/)
-- [Fault Injection](https://istio.io/docs/tasks/traffic-management/fault-injection/)
 - [Traffic Shifting](https://istio.io/docs/tasks/traffic-management/traffic-shifting/)
 - [Control Ingress Traffic](https://istio.io/docs/tasks/traffic-management/ingress/)
 <br />
