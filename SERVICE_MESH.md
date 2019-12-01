@@ -146,14 +146,16 @@ The workflow of this example is as follows:
 
 ## 3. [Request Timeouts](https://istio.io/docs/tasks/traffic-management/request-timeouts/)
 We can configure `Request Timeout` by using `delay/fixedDelay`, `timeout`, [VirtualService](https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/), and [HTTP Route Rule](https://istio.io/docs/reference/config/networking/v1alpha3/virtual-service/#HTTPRoute).
-
-⭐️ Reference
-[Fault Injection](https://istio.io/docs/tasks/traffic-management/fault-injection/)
 <br />
 <br />
 
 
-## 4. [Request Routing](https://istio.io/docs/tasks/traffic-management/request-routing/)
+## 4. [Fault Injection](https://istio.io/docs/tasks/traffic-management/fault-injection/)
+<br />
+<br />
+
+
+## 5. [Request Routing](https://istio.io/docs/tasks/traffic-management/request-routing/)
 [Traffic Management](https://istio.io/docs/concepts/traffic-management/)
 <br />
 <br />
